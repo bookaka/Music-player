@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./asset/main.css" />
+
+    <link
+      rel="stylesheet"
+      href="./asset/fonts/fontawesome-free-6.1.1-web/fontawesome-free-6.1.1-web/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <title>Music Player</title>
+  </head>
+  <body>
+    <div class="music-card">
+      <div class="layer1">
+        <div class="music-header">
+          <span class="list-icon">
+            <i class="fa-solid fa-list"></i>
+          </span>
+          <span class="title"> NOW PLAYING </span>
+          <span class="like-icon ">
+            <i class="fa-regular fa-heart un_like"></i>
+            <i class="fa-solid fa-heart liked "></i>
+          </span>
+        </div>
+        <div class="cd">
+          <img src="./asset/img/hoi_ao_8.jpg" alt="" class="cd__img" />
+        </div>
+        <div class="song">
+          <h3 class="song__name">??</h3>
+          <p class="song__author">??</p>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-bar-value"></div>
+        </div>
+        <div class="progress-time">
+          <span class="progress-time__current">0</span>
+          <span class="progress-time__duration">0</span>
+        </div>
+        <div class="control">
+          <div class="btn btn__random">
+            <i class="fa-solid fa-random"></i>
+          </div>
+          <div class="btn btn__pre">
+            <i class="fa-solid fa-backward-step"></i>
+          </div>
+          <div class="btn btn__play">
+            <i class="fa-solid fa-circle-play play"></i>
+            <i class="fa-solid fa-circle-pause pause"></i>
+          </div>
+          <div class="btn btn__next">
+            <i class="fa-solid fa-forward-step"></i>
+          </div>
+          <div class="btn btn__repeat">
+            <i class="fa-solid fa-repeat"></i>
+          </div>
+        </div>
+        <div class="volume-change">
+          <div class="volume ">
+            <i class="fa-solid fa-volume-high hight"></i>
+            <i class="fa-solid fa-volume-xmark low"></i>
+          </div>
+          <div class="volume-bar">
+            <div class="volume-bar__value"></div>
+          </div>
+        </div>
+        <audio src=""></audio>
+      </div>
+      <div class="layer2">
+        <div class="playlist-header">
+          <h3>My playlist</h3>
+          <div class="icon-close">
+            <i class="fa-solid fa-xmark"></i>
+          </div>
+        </div>
+        <div class="playlist-items">
+          <!-- <div class="playlist-item active"  ,data-index="0">
+            <img src=./asset/img/hoi_ao_8.jpg alt="" class="img-item">
+            <div class="body-item">
+              <div class="item__title">?</div>
+              <div class="item__author">??</div>
+            </div>
+            <div class="item__active"></div>
+            <div class="item__option">
+              <i class="fa-solid fa-ellipsis"></i> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
+    
+    const songName = $(".song__name");
+    const songSinger = $(".song__author");
+    const cdImg = $(".cd__img");
+    const audio = $("audio");
+    const playBtn = $(".btn__play");
+    const playlist = $(".playlist-items");
+    const timeCr = $(".progress-time__current");
+    const timeDur = $(".progress-time__duration");
+
+    const progressBar = $(".progress-bar");
+    const progressBarVal = $(".progress-bar-value");
+
+    const volumeBar =$(".volume-bar");
+    const volumeBarVal =$(".volume-bar__value");
+    const volume = $(".volume");
+
+    const musicCard = $(".music-card");
+    const likeIcon = $(".like-icon");
+
+    const listIcon = $(".list-icon");
+    const closeIcon = $(".icon-close");
+    const btnNext = $(".btn__next");
+    const btnPre = $(".btn__pre");
+
+    const btnRepeat = $(".btn__repeat");
+    const btnRandom = $(".btn__random");
+
+    const app = {
+      currentIndex: 0,
+      isPlaying: false,
+      isRepeat: false,
+      isRandom: false,
+      ismute: false,
+      crvolume: 100,
+      songs: [
+        {
+          name: "Hơi ảo 8",
+          singer: "Lucin3x",
+          path: "./asset/music/hoi_ao_8.mp3",
+
+          image: "./asset/img/hoi_ao_8.jpg",
+        },
+        {
+          name: "Tình yêu ngủ quên",
+          singer: "Lucin3x",
+          path: "./asset/music/Tinh Yeu Ngu Quen Chill Version.mp3",
+          image: "./asset/img/tinh.jpg",
+        },
+        {
+          name: "How To Love",
+          singer: "Cash Cash ft. Sofia Reyes",
+          path: "./asset/music/How To Love (Feat. Sofia Reyes) - Cash Cash.mp3",
+          image: "./asset/img/HowToLove.jpg",
+        },
+        {
+          name: "Trap Queen",
+          singer: "Adriana Gomez",
+          path: "./asset/music/Trap-Queen.mp3",
+          image: "./asset/img/trapqueen.jpg",
+        },
+        {
+          name: "Ngôi sao cô đơn",
+          singer: "Jack",
+          path: "./asset/music/NgoiSaoCoDon-JackJ97-7611601.mp3",
+          image: "./asset/img/jack.jpg",
+        },
+        {
+          name: "Sóng Gió",
+          singer: "Jack",
+          path: "./asset/music/Songgio.mp3",
+          image: "./asset/img/jack.jpg",
+        },
+        
+        
+      ],
+
+      defineProperties: function () {
+        Object.defineProperty(this, "currentSong", {
+          get: function () {
+            return this.songs[this.currentIndex];
+          },
+        });
+      },
+
+      render: function () {
+        const html = this.songs.map((song, index) => {
+          return `
+                    <div class="playlist-item" data-index="${index}">
+                        <img src="${song.image}" alt="" class="img-item">
+                        <div class="body-item">
+                            <div class="item__title"> ${song.name}</div>
+                            <div class="item__author">${song.singer}</div>
+                        </div>
+                        <div class="item__active"></div>
+                        <div class="item__option">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </div>
+                    </div>
+                `;
+        });
+        playlist.innerHTML = html.join("");
+        firstItem = $('.playlist-item');
+        firstItem.classList.add('active');
+      },
+
+      loadCurrentSong: function () {
+        songName.innerHTML = this.currentSong.name;
+        songSinger.innerHTML = this.currentSong.singer;
+        cdImg.src = `${this.currentSong.image}`;
+        audio.src = `${this.currentSong.path}`;
+
+
+        //load ban hat dang phat tren playlist
+
+        const playlists =$$(".playlist-item");
+        for (let i = 0; i < playlists.length; i++) {
+          if (playlists[i].getAttribute("data-index") == this.currentIndex)
+            {playlists[i].classList.add('active');  }
+
+          else playlists[i].classList.remove('active');
+          
+        }
+        //load time bài hát.
+        audio.oncanplay = function () {
+          var hrs = ~~(audio.duration / 3600);
+          var mins = ~~((audio.duration % 3600) / 60);
+          var secs = ~~audio.duration % 60;
+          var time = "";
+
+          if (hrs > 0) {
+            time += "" + hrs + ":" + (mins < 10 ? "0" : "");
+          }
+
+          time += "" + mins + ":" + (secs < 10 ? "0" : "");
+          time += "" + secs;
+
+          // timeCr.innerHTML = "00:00";
+          timeDur.innerHTML = time;
+        };
+
+        progressBarVal.style.width = 0;
+      },
+
+       
+
+
+     
+
+
+      // ham xu li khi chuyen bai hat tiep theo
+      nextSong: function () {
+        if (_this.isRandom){
+            const tem = _this.currentIndex
+            while (tem == _this.currentIndex)
+              _this.currentIndex = Math.floor(Math.random() * (_this.songs.length - 1))
+          }
+          else{
+          if (_this.currentIndex < _this.songs.length - 1) {
+            _this.currentIndex = _this.currentIndex + 1;
+          } else _this.currentIndex = 0;
+          }
+        _this.loadCurrentSong();
+        audio.play();
+        if (!_this.isPlaying) {
+          _this.isPlaying = true;
+          audio.play();
+          playBtn.classList.add("active");
+          cdAnimate.play();
+        }
+      },
+      handleEvents: function () {
+        _this = this;
+
+        //xu li cd
+        const cdAnimate = cdImg.animate([{ transform: "rotate(360deg)" }], {
+          duration: 10000,
+          iterations: Infinity,
+        });
+        cdAnimate.pause();
+        //xu li khi click play song
+
+        playBtn.onclick = function () {
+          if (!_this.isPlaying) {
+            _this.isPlaying = true;
+            audio.play();
+            playBtn.classList.add("active");
+            cdAnimate.play();
+          } else {
+            _this.isPlaying = false;
+            audio.pause();
+            playBtn.classList.remove("active");
+            cdAnimate.pause();
+          }
+        };
+        //xử lí khi tiến độ  bài hát thay đổi
+
+        audio.ontimeupdate = function () {
+          var hrs = ~~(audio.currentTime / 3600);
+          var mins = ~~((audio.currentTime % 3600) / 60);
+          var secs = ~~audio.currentTime % 60;
+          var time = "";
+
+          if (hrs > 0) {
+            time += "" + hrs + ":" + (mins < 10 ? "0" : "");
+          }
+
+          time += "" + mins + ":" + (secs < 10 ? "0" : "");
+          time += "" + secs;
+
+          timeCr.innerHTML = time;
+          progressBarVal.style.width =
+            (audio.currentTime / audio.duration) * 100 + "%";
+          
+        };
+        
+        progressBar.onclick = function (e) {
+          const max = 320
+          const seekTime =
+            audio.duration * (e.offsetX / max);
+          audio.currentTime = seekTime;
+          progressBarVal.style.width =
+          (audio.currentTime / audio.duration) * 100 + "%";
+       
+
+        };
+
+
+
+        //xu li am luong
+
+        volume.onclick =function(){
+          volume.classList.toggle("active");
+          if(!_this.ismute){
+            audio.muted=true;
+            _this.ismute =true;
+          }
+          else{
+            audio.muted=false;
+            _this.ismute = false;
+          }
+
+        };
+        volumeBar.onclick = function (e) {
+          const max = 192
+          const seekVolume = e.offsetX / max
+          audio.volume = seekVolume;
+          volumeBarVal.style.width =
+          (seekVolume) * 100 + "%";
+       
+
+        };
+
+        
+
+
+
+        //xu li khi chuyen next bai hat
+        btnNext.onclick = function () {
+          if (_this.isRandom){
+            const tem = _this.currentIndex
+            while (tem == _this.currentIndex)
+              _this.currentIndex = Math.floor(Math.random() * (_this.songs.length - 1))
+          }
+          else{
+              if (_this.currentIndex < _this.songs.length - 1) {
+              _this.currentIndex = _this.currentIndex + 1;
+            } else _this.currentIndex = 0;
+            
+
+           
+          }
+          _this.loadCurrentSong();
+          audio.play();
+            if (!_this.isPlaying) {
+              _this.isPlaying = true;
+              audio.play();
+              playBtn.classList.add("active");
+              cdAnimate.play();
+            }
+        };
+
+        //xu li khi pre bai bat \
+        btnPre.onclick = function () {
+          if (_this.isRandom){
+            const tem = _this.currentIndex
+            while (tem == _this.currentIndex)
+              _this.currentIndex = Math.floor(Math.random() * (_this.songs.length - 1))
+          }
+          else{
+            if (_this.currentIndex == 0) {
+              _this.currentIndex = _this.songs.length - 1;
+            } else _this.currentIndex = _this.currentIndex - 1;
+          }
+          _this.loadCurrentSong();
+          audio.play();
+
+          if (!_this.isPlaying) {
+            _this.isPlaying = true;
+            audio.play();
+            playBtn.classList.add("active");
+            cdAnimate.play();
+          }
+        };
+
+        //xu li khi mo/dong danh sach bai hat
+        listIcon.onclick = function () {
+          musicCard.classList.add("active");
+        };
+        closeIcon.onclick = function () {
+          musicCard.classList.remove("active");
+        };  
+
+        
+
+        //xu li khi het bai hat
+        audio.onended = function () {
+          if (!_this.isRepeat) _this.nextSong();
+          else audio.play();
+        };
+
+
+        // ham xu li khi like bai hat
+
+        likeIcon.onclick = ()=>{
+          likeIcon.classList.toggle("active");
+        }
+
+        //xu li khi repaet
+        btnRepeat.onclick = function () {
+          btnRepeat.classList.toggle("active");
+          _this.isRepeat = !_this.isRepeat;
+        };
+
+        //xuli khi an vao nut random
+        btnRandom.onclick = function () {
+          btnRandom.classList.toggle("active");
+          _this.isRandom = !_this.isRandom;
+          console.log(_this.isRandom);
+        };
+
+        //xu lu khi chon bai hat
+        const playlists =$$(".playlist-item");
+        for (let i = 0; i < playlists.length; i++) {
+          playlists[i].onclick = function(){
+            _this.currentIndex = playlists[i].getAttribute("data-index");
+            _this.loadCurrentSong();
+            
+            
+            _this.isPlaying = true;
+            audio.play();
+            playBtn.classList.add("active");
+            cdAnimate.play();
+          
+          }
+        }
+      },
+
+      start: function () {
+        this.defineProperties();
+        
+
+        this.loadCurrentSong();
+
+        this.render();
+
+        
+        this.handleEvents();
+      },
+    };
+
+    app.start();
+  </script>
+</html>

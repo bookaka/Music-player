@@ -1,0 +1,334 @@
+:root{
+    --primary-color:#3a2222;
+    --sub-color: #ffe7e7;
+
+}
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+html {
+    font-size: 62.5%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+
+}
+body {
+    background-image: linear-gradient( 90deg, rgb(65, 88, 208) 0%, rgb(200, 80, 192) 50%, rgb(255, 204, 112) 100% );
+
+}
+.music-card{
+    width: 400px;
+    background-color: transparent;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 5px;
+    height: 520px;
+   
+
+}
+.music-card.active .layer1{
+    display: none;
+}
+.music-card.active .layer2{
+    display: block;
+}
+.layer1{
+    /* display: none; */
+    padding: 20px 40px;
+}
+.music-header{
+    display: flex;
+    justify-content: space-between;
+   
+}
+.list-icon{
+    color: var(--primary-color);
+    font-size: 2.8rem;
+    cursor: pointer;
+    position: relative;
+    top: -2px;
+}
+
+
+.title{
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: bold;
+}
+.like-icon{
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    cursor: pointer;
+    display: block;
+}
+
+.like-icon .liked{
+    color: red;
+    display: none;
+}
+
+.like-icon.active .un_like{
+    display: none;
+}
+
+.like-icon.active .liked{
+    display: inline-block;
+   
+}
+
+
+.cd{
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 20px auto;
+    box-shadow: 0 0 5px;
+    object-fit: cover;
+    object-position: center;
+}
+.cd__img {
+    height: 180px;
+    width: 180px;
+   
+}
+
+
+.song{
+    color: var(--primary-color);
+}
+
+.song__name{
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.song__author{
+    font-size: 1.6rem;
+}
+
+.progress-bar{
+    width: 100%;
+    margin-top: 16px;
+    height: 6px;
+    border-radius: 5px;
+    background-color: var(--sub-color);
+    position: relative;
+    cursor: pointer;
+}
+
+.progress-bar-value{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-image: linear-gradient( 45deg, rgb(65, 88, 208) 0%, rgb(200, 80, 192) 50%, rgb(255, 204, 112) 100% );
+}
+
+.progress-time{
+    display: flex;
+    justify-content: space-between;
+    color: var(--primary-color);
+    font-size: 1.6rem;
+    margin-top: 8px;
+}
+
+
+.control{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 2.4rem;
+    text-align: center;
+    align-items: center;
+    height: 40px;
+    
+}
+.btn{
+    cursor: pointer;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+
+.btn__random.active{
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.btn__repeat{
+    position: relative;
+}
+
+.btn__repeat.active::after{
+    content: "1";
+    position: absolute;
+    font-weight: 900;
+    font-size: 1rem;
+    top: 8px;
+    left: 10px;
+
+}
+
+.btn__play{
+    font-size: 4.0rem;
+    display: block;
+}
+.btn__play.active .play{
+    display: none;
+}
+.btn__play.active .pause{
+    display: block;
+}
+.btn__play .pause{
+    display: none;
+    font-size: 4.0rem;
+}
+.btn__play .play{
+    font-size: 4.0rem;
+}
+
+
+.volume-change{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    margin-top: 16px;
+}
+.volume{
+    font-size: 2.4rem;
+    cursor: pointer;
+    width: 3rem;
+}
+.volume-bar{
+    width: 60%;
+    margin-left: 10px;
+    height: 6px;
+    border-radius: 5px;
+    background-color: var(--sub-color);
+    position: relative;
+    cursor: pointer;
+    
+}
+
+.volume-bar__value{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-image: linear-gradient( 45deg, rgb(65, 88, 208) 0%, rgb(200, 80, 192) 50%, rgb(255, 204, 112) 100% );
+}
+
+.volume .height {
+    
+    display: block;;
+  
+}
+.volume .low{
+    display: none;
+   
+    
+}
+
+.volume.active .low{
+    display: block;
+}
+.volume.active .hight{
+    display: none;
+}
+
+
+/* layer2 */
+
+.layer2{
+  
+    display: none;
+}
+
+.playlist-header{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    padding: 16px 16px;
+    
+}
+
+.playlist-header h3{
+    font-size: 2.4rem;
+    color: var(--sub-color);
+
+}
+
+.playlist-header i{
+    font-size: 2.4rem;
+    color: var(--sub-color);
+    cursor: pointer;
+    padding: 3px;
+}
+
+.playlist-item{
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 16px;
+    ;
+
+}
+
+.playlist-item.active{
+    
+    border: 2px solid #ffe7e7 ;
+    border-radius: 10px;
+    background-image: linear-gradient( 45deg, rgb(65, 88, 208) 0%, rgb(200, 80, 192) 50%, rgb(255, 204, 112) 100% );
+}
+
+
+.playlist-item:hover{
+    opacity: 0.8;
+    cursor: pointer;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+}
+.img-item{
+    width: 50px;
+    height: 50px;
+    margin-right: 16px;
+    object-fit: cover;
+    object-position: center;
+
+}
+
+.body-item{
+    flex:1;
+    text-align: left;
+    
+}
+
+.item__title{
+    font-size: 1.6rem;
+    color: var(--sub-color);
+    padding: 5px 0;
+    font-weight: 500;
+}
+.item__author{
+    font-size: 1.4rem;
+    color: var(--primary-color);
+}
+
+.item__option{
+    color: var(--sub-color);
+    font-size: 2.1rem;
+}
