@@ -28,6 +28,7 @@ body {
     text-align: center;
     box-shadow: 0 0 5px;
     height: 520px;
+    max-width: 100%;
    
 
 }
@@ -256,6 +257,7 @@ body {
 .layer2{
   
     display: none;
+    max-width: 100%;
 }
 
 .playlist-header{
